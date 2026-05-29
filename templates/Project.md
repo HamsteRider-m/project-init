@@ -31,6 +31,8 @@ input
 
 <!-- Define hard gates that must pass before output is accepted. Link to docs/contracts/*. -->
 
+For documentation handoff changes, `scripts/validate_handoff.py --root . --contract .github/project_handoff_contract.json` is the deterministic gate. A failing validator means the handoff loop is not accepted.
+
 ## Output Standards
 
 <!-- Define human-facing output expectations, naming rules, review rules, and uncertainty/error handling. -->

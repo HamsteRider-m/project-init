@@ -1,4 +1,11 @@
 repos:
+  - repo: local
+    hooks:
+      - id: validate-handoff
+        name: validate project handoff docs
+        entry: python scripts/validate_handoff.py --root . --contract .github/project_handoff_contract.json
+        language: system
+        pass_filenames: false
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:

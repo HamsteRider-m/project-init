@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "required_files": [
+    "AGENTS.md",
+    "Project.md",
+    "README.md",
+    "docs/runbook.md",
+    "docs/folder_structure.md",
+    "docs/contracts/output_contract.md",
+    "docs/contracts/qc_and_review_contract.md",
+    "scripts/validate_handoff.py",
+    ".github/AI_WORKFLOW.md",
+    ".github/TaskLogs/CurrentTask.md",
+    ".github/TaskLogs/Planning.md",
+    ".github/TaskLogs/Execution.md",
+    ".github/TaskLogs/Review.md",
+    ".github/TaskLogs/Investigate.md",
+    ".github/TaskLogs/KB.md"
+  ],
+  "reading_order": [
+    "Project.md",
+    "README.md",
+    "docs/runbook.md",
+    "docs/contracts/",
+    ".github/AI_WORKFLOW.md",
+    ".github/TaskLogs/CurrentTask.md",
+    ".github/TaskLogs/Planning.md"
+  ],
+  "required_headings": {
+    "Project.md": [
+      "Purpose",
+      "Stable Inputs And Dependencies",
+      "Production Path",
+      "Repository Boundaries",
+      "Quality Gates",
+      "Output Standards",
+      "Downgraded Or Non-Production Paths",
+      "Non-Goals",
+      "Current State Pointers"
+    ],
+    "README.md": [
+      "What This Is",
+      "Current Production Path",
+      "Required Local Inputs",
+      "Common Commands",
+      "Documentation Map",
+      "Documentation Maintenance",
+      "Boundaries"
+    ],
+    "docs/runbook.md": [
+      "Production Path",
+      "Preconditions",
+      "Per-Item Procedure",
+      "Commands",
+      "Failure Handling",
+      "Acceptance Checklist"
+    ],
+    "docs/contracts/output_contract.md": [
+      "Final Output Boundary",
+      "Work Artifact Boundary",
+      "Traceability",
+      "Rejection Rules"
+    ],
+    "docs/contracts/qc_and_review_contract.md": [
+      "Required Reports",
+      "Hard Gates",
+      "Manual Review Triggers",
+      "Review Queue"
+    ],
+    ".github/AI_WORKFLOW.md": [
+      "Modes",
+      "Gates",
+      "Durable State Files",
+      "Maintenance Rules"
+    ],
+    ".github/TaskLogs/Execution.md": [
+      "Run Log",
+      "Evidence",
+      "Documentation Audit",
+      "Blockers"
+    ]
+  },
+  "wrapper_files": [
+    "CLAUDE.md",
+    "CODEX.md",
+    ".github/copilot-instructions.md"
+  ],
+  "wrapper_required_reference": "AGENTS.md",
+  "forbidden_placeholder_patterns": [
+    "<!-- file 1 -->",
+    "<!-- file 2 -->",
+    "<!-- gate 1 -->",
+    "<!-- gate 2 -->"
+  ],
+  "doc_audit_required_fields": [
+    "Project.md",
+    "README.md",
+    "docs/runbook.md",
+    "docs/contracts/*",
+    "TaskLogs"
+  ],
+  "runbook_required_terms": [
+    "validate",
+    "Failure Handling",
+    "Acceptance Checklist"
+  ],
+  "secret_patterns": [
+    "hf_[A-Za-z0-9_\\-]{20,}",
+    "sk-[A-Za-z0-9_\\-]{20,}",
+    "ghp_[A-Za-z0-9_]{20,}"
+  ]
+}

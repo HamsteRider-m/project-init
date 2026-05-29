@@ -21,7 +21,7 @@ See `docs/runbook.md` for routine commands.
 ## Common Commands
 
 ```bash
-# Replace with the most common read-only check.
+python scripts/validate_handoff.py --root . --contract .github/project_handoff_contract.json
 ```
 
 ```bash
@@ -49,6 +49,7 @@ See `docs/runbook.md` for routine commands.
 - Update `docs/contracts/*` when pass/fail criteria or output boundaries change.
 - Update TaskLogs when active state, evidence, investigations, review findings, or document debt changes.
 - At the end of each task, record a documentation audit in `.github/TaskLogs/Execution.md`.
+- Run `python scripts/validate_handoff.py --root . --contract .github/project_handoff_contract.json` before accepting documentation changes.
 
 ## Boundaries
 

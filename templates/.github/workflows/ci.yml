@@ -9,4 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "Replace this workflow with project-specific checks."
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python scripts/validate_handoff.py --root . --contract .github/project_handoff_contract.json

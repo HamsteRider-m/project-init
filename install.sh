@@ -11,6 +11,8 @@ install_skill() {
   cp "$SCRIPT_DIR/SKILL.md" "$target/SKILL.md"
   rm -rf "$target/templates"
   cp -R "$SCRIPT_DIR/templates" "$target/templates"
+  rm -rf "$target/scripts"
+  cp -R "$SCRIPT_DIR/scripts" "$target/scripts"
   echo "Installed project-init to $target"
 }
 

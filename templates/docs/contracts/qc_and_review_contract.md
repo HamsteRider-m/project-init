@@ -12,8 +12,8 @@ Define the reports or checks that must exist before output is accepted.
 
 A hard-gate failure means the output is not accepted.
 
-- <!-- gate 1 -->
-- <!-- gate 2 -->
+- `scripts/validate_handoff.py --root . --contract .github/project_handoff_contract.json` exits 0 for documentation handoff changes.
+- The project-specific verification command exits 0 before output is accepted.
 
 ## Manual Review Triggers
 

@@ -6,8 +6,8 @@ Define exactly where accepted output is written and what file types are allowed.
 
 Required final files:
 
-- <!-- file 1 -->
-- <!-- file 2 -->
+- The project must list concrete required final files before accepting production output.
+- `README.md` and `docs/runbook.md` must point to the accepted output location.
 
 Final output must not contain logs, caches, intermediate JSON, temporary files, credentials, or machine-only artifacts unless this contract explicitly allows them.
 
@@ -17,8 +17,8 @@ Define where engineering artifacts live.
 
 Expected work artifacts:
 
-- <!-- artifact 1 -->
-- <!-- artifact 2 -->
+- The project must define where logs, caches, generated intermediates, and audit artifacts live.
+- Work artifacts must stay outside final output folders unless this contract explicitly allows them.
 
 ## Traceability
 

@@ -35,7 +35,10 @@ Default scaffold:
 │   └── contracts/
 │       ├── output_contract.md
 │       └── qc_and_review_contract.md
+├── scripts/
+│   └── validate_handoff.py
 └── .github/
+    ├── project_handoff_contract.json
     ├── AI_WORKFLOW.md
     └── TaskLogs/
         ├── CurrentTask.md
@@ -84,6 +87,7 @@ Only add optional files when the user asks for that tool surface or the project 
    - Did `.github/TaskLogs/Execution.md` record verification evidence and the audit result?
    - Did `.github/TaskLogs/Investigate.md` or `Review.md` need evidence or residual-risk updates?
 8. Run validation:
+   - `python scripts/validate_handoff.py --root . --contract .github/project_handoff_contract.json`
    - `git diff --check`
    - a secret scan appropriate for the project, at minimum common token prefixes/patterns mentioned in docs.
 9. Report created/updated/skipped files, verification commands, documentation-audit outcome, and any remaining manual fill-ins.
@@ -127,6 +131,8 @@ docs/runbook.md
 docs/folder_structure.md
 docs/contracts/output_contract.md
 docs/contracts/qc_and_review_contract.md
+scripts/validate_handoff.py
+.github/project_handoff_contract.json
 .github/AI_WORKFLOW.md
 .github/TaskLogs/CurrentTask.md
 .github/TaskLogs/Planning.md
@@ -138,6 +144,16 @@ docs/contracts/qc_and_review_contract.md
 
 For a project with an existing workflow, merge the template structure into the existing docs instead of replacing project-specific facts.
 
+## Deterministic Acceptance Layer
+
+The handoff loop should not rely on an LLM saying "looks good." Generated projects should include:
+
+- `.github/project_handoff_contract.json`: machine-readable required files, headings, reading order, wrapper rules, audit fields, forbidden placeholders, and secret patterns.
+- `scripts/validate_handoff.py`: deterministic validator. It exits non-zero when the project violates the contract.
+- CI or pre-commit wiring when the user wants automated enforcement.
+
+The validator checks structure and obvious drift. It does not prove the project-specific content is correct; human/agent review still fills in meaningful domain details.
+
 ## Installing This Skill
 
 Use the repository install script when updating local agent runtimes:
@@ -148,4 +164,4 @@ Use the repository install script when updating local agent runtimes:
 ./install.sh claude
 ```
 
-The script copies both `SKILL.md` and `templates/`. When calling it through WSL from Windows, pass `CODEX_HOME` or `CLAUDE_HOME` in the same `bash` invocation if you want a Windows-mounted target.
+The script copies `SKILL.md`, `templates/`, and `scripts/`. When calling it through WSL from Windows, pass `CODEX_HOME` or `CLAUDE_HOME` in the same `bash` invocation if you want a Windows-mounted target.

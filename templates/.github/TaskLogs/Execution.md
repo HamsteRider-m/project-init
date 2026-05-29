@@ -15,6 +15,7 @@
 - `docs/runbook.md`: <!-- updated/unchanged and why -->
 - `docs/contracts/*`: <!-- updated/unchanged and why -->
 - `TaskLogs`: <!-- updated/unchanged and evidence location -->
+- `scripts/validate_handoff.py`: <!-- pass/fail and command evidence -->
 
 ## Blockers
 

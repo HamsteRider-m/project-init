@@ -21,6 +21,14 @@ TaskLogs record active task state and evidence. They must not replace `Project.m
 
 Before claiming completion, record evidence in `TaskLogs/Execution.md`. Evidence should be command output, generated file paths, counts, or concise review notes tied to actual files.
 
+For documentation or handoff changes, the deterministic gate is:
+
+```bash
+python scripts/validate_handoff.py --root . --contract .github/project_handoff_contract.json
+```
+
+This command must pass before the documentation loop is considered accepted.
+
 ### Privacy Gate
 
 Do not move private data, credentials, tokens, or local-only material outside the workspace unless the user explicitly asks.
@@ -36,6 +44,7 @@ Record the audit result in `TaskLogs/Execution.md`:
 - `docs/runbook.md`: updated / unchanged, with reason.
 - `docs/contracts/*`: updated / unchanged, with reason.
 - `TaskLogs`: updated / unchanged, with evidence location.
+- `scripts/validate_handoff.py`: pass / fail, with command evidence.
 
 If a document should change but the task cannot safely update it, record that as document debt in `TaskLogs/Review.md`.
 

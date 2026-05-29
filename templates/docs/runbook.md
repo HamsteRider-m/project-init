@@ -41,7 +41,7 @@ input
 ```
 
 ```bash
-# validate
+python scripts/validate_handoff.py --root . --contract .github/project_handoff_contract.json
 ```
 
 ## Failure Handling
@@ -56,6 +56,7 @@ input
 - Inputs are traceable.
 - Work artifacts are stored outside final outputs.
 - Required acceptance gates pass.
+- `scripts/validate_handoff.py` returns exit code 0.
 - Final outputs contain only allowed file types.
 - Review items are recorded.
 - Historical/debug paths are not treated as the current production mainline.
