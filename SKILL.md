@@ -1,287 +1,151 @@
 ---
 name: project-init
-description: Initialize a new project with full AI harness and guardrails: CLAUDE.md/AGENTS.md AI entry points, 7-mode workflow task logs, CI workflow, pre-commit hooks, and linter config. Use when user says "初始化项目", "搭建项目骨架", "init project", "project init", or /project-init.
+description: "Initialize or refresh a project with a document-backed AI handoff loop: AGENTS.md, Project.md, README.md, docs/runbook.md, docs/contracts/*, and .github/TaskLogs/*. Use when the user asks to 初始化项目, 搭建项目骨架, init project, project init, create project docs, update project-init docs, or make a repo easier for no-context agents to resume."
 ---
 
 # project-init
 
-Scaffold a complete AI-constrained project harness from scratch. Run this at the start of every new project.
+Create a tool-neutral project documentation harness that lets a no-context agent resume work from repository documents instead of chat history.
 
-## What this skill creates
+## Default Handoff Loop
 
+```text
+AGENTS.md
+  -> Project.md
+  -> README.md
+  -> docs/runbook.md
+  -> docs/contracts/*
+  -> .github/TaskLogs/*
 ```
+
+Use one stable entry point by default: `AGENTS.md`. Tool-specific files such as `CLAUDE.md`, `CODEX.md`, or `.github/copilot-instructions.md` are optional wrappers that point back to `AGENTS.md`; they must not become independent sources of truth.
+
+## What To Create
+
+Default scaffold:
+
+```text
 <project-root>/
-├── CLAUDE.md                          # Claude entry point
-├── AGENTS.md                          # Generic agent entry point
-├── CODEX.md                           # Codex entry point
-├── Project.md                         # Project purpose & scope (fill in)
-├── .github/
-│   ├── copilot-instructions.md        # 7-mode AI workflow definition
-│   ├── KnowledgeBase/Index.md         # KB index
-│   ├── TaskLogs/
-│   │   ├── CurrentTask.md
-│   │   ├── Planning.md
-│   │   ├── Scrum.md
-│   │   ├── Execution.md
-│   │   ├── Review.md
-│   │   ├── Investigate.md
-│   │   └── KB.md
-│   └── workflows/
-│       └── ci.yml
-├── .pre-commit-config.yaml
-└── pyproject.toml                     # ruff + mypy config appended (Python only)
+├── AGENTS.md
+├── Project.md
+├── README.md
+├── docs/
+│   ├── runbook.md
+│   ├── folder_structure.md
+│   └── contracts/
+│       ├── output_contract.md
+│       └── qc_and_review_contract.md
+└── .github/
+    ├── AI_WORKFLOW.md
+    └── TaskLogs/
+        ├── CurrentTask.md
+        ├── Planning.md
+        ├── Execution.md
+        ├── Review.md
+        ├── Investigate.md
+        └── KB.md
 ```
 
-## Steps
+Optional scaffold:
 
-### 1. Detect project type
+```text
+CLAUDE.md
+CODEX.md
+.github/copilot-instructions.md
+.github/workflows/ci.yml
+.pre-commit-config.yaml
+```
+
+Only add optional files when the user asks for that tool surface or the project already uses it.
+
+## Workflow
+
+1. Confirm the project root with `pwd` or `git rev-parse --show-toplevel`.
+2. Inspect existing docs before writing:
+   - `AGENTS.md`, `Project.md`, `README.md`
+   - `docs/`
+   - `.github/AI_WORKFLOW.md`
+   - `.github/TaskLogs/`
+   - tool-specific entry files if present
+3. If the directory is not a git repository and the user is initializing a durable project, run `git init` before edits.
+4. Copy templates from `templates/` and adapt placeholders to the project. Preserve useful existing content; do not overwrite user edits blindly.
+5. Keep responsibilities separated:
+   - `Project.md`: stable purpose, boundaries, production path, non-goals, quality principles.
+   - `README.md`: quickstart and documentation map.
+   - `docs/runbook.md`: routine commands and failure handling.
+   - `docs/contracts/*`: acceptance rules, not operations.
+   - `.github/TaskLogs/*`: current state, plans, evidence, investigations, and review notes.
+6. Add tool-specific wrappers only if requested. A wrapper should say to read `AGENTS.md`, not duplicate the workflow.
+7. Before ending the task, run the documentation audit:
+   - Did `Project.md` gain or lose a stable rule, boundary, production path, or non-goal?
+   - Did `README.md` still point to the right quickstart and documentation map?
+   - Did `docs/runbook.md` need new or changed routine commands, failure handling, or prerequisites?
+   - Did `docs/contracts/*` need acceptance criteria updates?
+   - Did `.github/TaskLogs/Execution.md` record verification evidence and the audit result?
+   - Did `.github/TaskLogs/Investigate.md` or `Review.md` need evidence or residual-risk updates?
+8. Run validation:
+   - `git diff --check`
+   - a secret scan appropriate for the project, at minimum common token prefixes/patterns mentioned in docs.
+9. Report created/updated/skipped files, verification commands, documentation-audit outcome, and any remaining manual fill-ins.
+
+## Migration Rules For Existing Repos
+
+- Do not delete historical handoff or investigation docs. Add a clear header that marks them historical/debug-only and points to the current Project/runbook/contracts.
+- If multiple files describe the same "current" pipeline, move the complete operational procedure into `docs/runbook.md`, keep stable rules in `Project.md`, and leave evidence in TaskLogs.
+- Do not put current task status in `Project.md` unless the project explicitly wants a short pointer section.
+- Do not let TaskLogs become stable project rules.
+- Do not add CI, pre-commit, package manager files, or language-specific config unless the project type is clear and the user wants those surfaces.
+
+## Maintenance Rules
+
+| File | Maintain When | Do Not Use For |
+|---|---|---|
+| `AGENTS.md` | reading order or agent-wide repository rule changes | task status, detailed operations |
+| `Project.md` | stable purpose, boundaries, mainline, quality principles, non-goals | run logs, temporary status |
+| `README.md` | quickstart, common commands, documentation map | long handoff/debug history |
+| `docs/runbook.md` | routine procedure, prerequisites, commands, failure handling | acceptance policy or current task status |
+| `docs/contracts/*` | pass/fail criteria, output boundaries, review gates | step-by-step operating instructions |
+| `.github/AI_WORKFLOW.md` | task-state workflow and end-of-task audit rules | project-specific production rules |
+| `.github/TaskLogs/CurrentTask.md` | active task scope and acceptance criteria | stable project rules |
+| `.github/TaskLogs/Planning.md` | unfinished plan and locked decisions | completed run evidence |
+| `.github/TaskLogs/Execution.md` | command evidence, generated paths, blockers, audit result | project constitution |
+| `.github/TaskLogs/Investigate.md` | root-cause evidence and downgraded-path rationale | routine operation |
+| `.github/TaskLogs/Review.md` | review findings and residual risks | stable acceptance contracts |
+| `.github/TaskLogs/KB.md` | optional durable decisions or procedures | mandatory reading path |
+
+## Template Use
+
+Copy only the needed templates. The template folder intentionally includes optional wrapper files, but the default project should not create every wrapper.
+
+For a new minimal project, create:
+
+```text
+AGENTS.md
+Project.md
+README.md
+docs/runbook.md
+docs/folder_structure.md
+docs/contracts/output_contract.md
+docs/contracts/qc_and_review_contract.md
+.github/AI_WORKFLOW.md
+.github/TaskLogs/CurrentTask.md
+.github/TaskLogs/Planning.md
+.github/TaskLogs/Execution.md
+.github/TaskLogs/Review.md
+.github/TaskLogs/Investigate.md
+.github/TaskLogs/KB.md
+```
+
+For a project with an existing workflow, merge the template structure into the existing docs instead of replacing project-specific facts.
+
+## Installing This Skill
+
+Use the repository install script when updating local agent runtimes:
 
 ```bash
-# Check for existing language markers
-ls pyproject.toml package.json Cargo.toml go.mod 2>/dev/null
+./install.sh all      # Codex + Claude default homes
+./install.sh codex
+./install.sh claude
 ```
 
-Set `LANG` to `python`, `node`, or `unknown`.
-
-### 2. Create AI entry point files
-
-Create **CLAUDE.md**:
-
-```markdown
-# Claude Entry
-
-Follow the same repo contract as every other AI tool:
-
-1. read [Project.md](./Project.md)
-2. read [.github/copilot-instructions.md](./.github/copilot-instructions.md)
-3. read [.github/TaskLogs/CurrentTask.md](./.github/TaskLogs/CurrentTask.md)
-4. read [.github/TaskLogs/Planning.md](./.github/TaskLogs/Planning.md)
-5. read [.github/TaskLogs/Execution.md](./.github/TaskLogs/Execution.md)
-6. read [.github/TaskLogs/Review.md](./.github/TaskLogs/Review.md)
-
-Use repository documents as the source of truth for current task state, not prior chat messages alone.
-
-Consult `.github/KnowledgeBase/Index.md` and the relevant files in `docs/` before design or implementation decisions.
-
-Use `.github/TaskLogs/Scrum.md` for backlog or scope work.
-Use `.github/TaskLogs/Investigate.md` for debugging investigations.
-```
-
-Create **AGENTS.md** and **CODEX.md** with identical content to CLAUDE.md.
-
-### 3. Create Project.md
-
-```markdown
-# Project
-
-## Purpose
-
-<!-- One paragraph: what this system does and why it exists -->
-
-## Key Terms
-
-<!-- Define domain-specific terms used throughout the codebase -->
-
-## Phase 0 — MVP
-
-- [ ] <!-- first deliverable -->
-
-## Non-Goals (v1)
-
-- <!-- explicitly out of scope -->
-```
-
-### 4. Create .github/copilot-instructions.md
-
-```markdown
-# AI Workflow
-
-This repo uses a 7-mode request protocol. Always identify the mode before acting.
-
-## Modes
-
-| Mode | Trigger | Output |
-|---|---|---|
-| `scrum` | backlog grooming, scope decisions | updated Scrum.md |
-| `plan` | new task or feature design | updated Planning.md + CurrentTask.md |
-| `execute` | implement a planned task | code changes + updated Execution.md |
-| `verify` | check acceptance criteria | evidence recorded in Execution.md |
-| `review` | post-implementation quality gate | Review.md with scores |
-| `investigate` | debug a failure or unexpected behavior | Investigate.md with root cause |
-| `kb` | capture a reusable decision or finding | KB.md + KnowledgeBase/Index.md |
-
-## Durable State Files
-
-| File | Purpose |
-|---|---|
-| `CurrentTask.md` | active task: title, scope, acceptance criteria |
-| `Planning.md` | step-by-step plan with status |
-| `Scrum.md` | backlog |
-| `Execution.md` | run log, evidence, blockers |
-| `Review.md` | review scores and findings |
-| `Investigate.md` | debug investigations |
-| `KB.md` | knowledge base entries |
-
-## Gates
-
-**Implementation gate**: a task entry in CurrentTask.md AND a plan in Planning.md must exist before writing code.
-
-**Verification gate**: acceptance criteria evidence must be recorded in Execution.md before claiming completion. Evidence = actual command output, not assertions.
-```
-
-### 5. Create TaskLog skeleton files
-
-Create each file under `.github/TaskLogs/`:
-
-**CurrentTask.md**:
-```markdown
-# Current Task
-
-## Title
-
-<!-- task name -->
-
-## Mode
-
-plan
-
-## Why
-
-<!-- motivation -->
-
-## In Scope
-
-- 
-
-## Out of Scope
-
-- 
-
-## Acceptance Criteria
-
-- 
-```
-
-**Planning.md**:
-```markdown
-# Planning
-
-## Steps
-
-- [ ] 1. 
-- [ ] 2. 
-
-## Locked Decisions
-
-- 
-```
-
-**Scrum.md**:
-```markdown
-# Backlog
-
-## In Progress
-
-- [ ] 
-
-## Todo
-
-- [ ] 
-
-## Done
-
-- [x] project initialized
-```
-
-**Execution.md**, **Review.md**, **Investigate.md**, **KB.md**: create as empty files with a `# <Title>` heading only.
-
-**KnowledgeBase/Index.md**:
-```markdown
-# Knowledge Base Index
-
-| Topic | File | Summary |
-|---|---|---|
-```
-
-### 6. Create CI workflow
-
-Create `.github/workflows/ci.yml`. Adapt to detected language:
-
-**Python**:
-```yaml
-name: CI
-on: [push, pull_request]
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v3
-      - run: uv sync --extra dev
-      - run: uv run ruff check src/ tests/
-      - run: uv run pytest -q
-```
-
-**Node**:
-```yaml
-name: CI
-on: [push, pull_request]
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: npm ci
-      - run: npm test
-```
-
-**Unknown**: create the Python template with a comment `# TODO: adapt to project language`.
-
-### 7. Create .pre-commit-config.yaml
-
-```yaml
-repos:
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.4
-    hooks:
-      - id: ruff
-        args: [--fix]
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
-    hooks:
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
-      - id: check-yaml
-```
-
-For non-Python projects, omit the ruff hook and keep only the generic hooks.
-
-Then install hooks:
-```bash
-pre-commit install
-```
-
-### 8. Append linter config (Python only)
-
-If `pyproject.toml` exists, append:
-```toml
-[tool.ruff]
-target-version = "py312"
-select = ["E", "F", "I"]
-
-[tool.mypy]
-strict = false
-ignore_missing_imports = true
-```
-
-If `pyproject.toml` does not exist, skip silently (don't create it — that's the package manager's job).
-
-### 9. Report
-
-Print a summary table of what was created vs skipped, and remind the user to:
-1. Fill in `Project.md` purpose section
-2. Fill in `CurrentTask.md` with the first task
-3. Run `pre-commit run --all-files` to verify hooks work
+The script copies both `SKILL.md` and `templates/`. When calling it through WSL from Windows, pass `CODEX_HOME` or `CLAUDE_HOME` in the same `bash` invocation if you want a Windows-mounted target.
