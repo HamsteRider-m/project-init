@@ -1,0 +1,5 @@
+$ git rev-parse --show-toplevel
+rc=0
+
+[stdout]
+E:/Projects/project-init

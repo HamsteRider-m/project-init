@@ -4,12 +4,12 @@ This file records review findings and residual risks. Stable project rules live 
 
 ## Findings
 
-- <!-- severity, file/path, evidence, impact -->
+- None recorded in the template project.
 
 ## Residual Risks
 
-- <!-- risk -->
+- None recorded in the template project.
 
 ## Test Gaps
 
-- <!-- gap -->
+- None recorded in the template project.

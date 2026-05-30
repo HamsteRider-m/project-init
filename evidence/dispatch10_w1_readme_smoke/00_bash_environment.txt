@@ -1,0 +1,13 @@
+$ bash -lc "pwd; which bash; bash --version | head -n 1; command -v python3 || true; command -v python || true"
+rc=0
+
+[stdout]
+/mnt/e/Projects/project-init
+/usr/bin/bash
+GNU bash, version 5.1.16(1)-release (x86_64-pc-linux-gnu)
+/usr/bin/python3
+
+
+[stderr]
+wsl: Failed to start the systemd user session for 'gomay'. See journalctl for more details.
+

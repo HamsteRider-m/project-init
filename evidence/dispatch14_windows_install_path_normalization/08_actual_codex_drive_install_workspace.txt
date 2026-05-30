@@ -1,0 +1,25 @@
+$ C:\Program Files\Git\bin\bash.exe E:\Projects\project-init\install.sh codex
+# cwd=C:\Users\hamst\AppData\Local\Temp\d14_project_init_smoke_3ex53pwx
+# expected_rc=0
+# rc=0
+
+## stdout
+Usage: E:\Projects\project-init\install.sh [all|codex|claude]
+
+Installs project-init to agent skill homes:
+  codex   C:/Users/hamst/AppData/Local/Temp/d14_project_init_smoke_3ex53pwx/codex_home/skills/project-init
+  claude  /c/Users/hamst/.claude/skills/project-init
+  all     both targets (default)
+
+Environment overrides:
+  CODEX_HOME   default: /c/Users/hamst/.codex
+  CLAUDE_HOME  default: /c/Users/hamst/.claude
+
+Safety note: install overwrites SKILL.md, templates/, and scripts/ inside
+only the target project-init skill directory shown above.
+Installing project-init to: C:/Users/hamst/AppData/Local/Temp/d14_project_init_smoke_3ex53pwx/codex_home/skills/project-init
+Overwrite scope: C:/Users/hamst/AppData/Local/Temp/d14_project_init_smoke_3ex53pwx/codex_home/skills/project-init/SKILL.md, C:/Users/hamst/AppData/Local/Temp/d14_project_init_smoke_3ex53pwx/codex_home/skills/project-init/templates/, C:/Users/hamst/AppData/Local/Temp/d14_project_init_smoke_3ex53pwx/codex_home/skills/project-init/scripts/
+Installed project-init to C:/Users/hamst/AppData/Local/Temp/d14_project_init_smoke_3ex53pwx/codex_home/skills/project-init
+Reload the target agent runtime to activate project-init.
+
+## stderr

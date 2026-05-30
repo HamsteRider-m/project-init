@@ -4,12 +4,12 @@ This file preserves historical failures, environment evidence, downgraded-path r
 
 ## Findings
 
-- <!-- date, symptom, evidence, conclusion -->
+- None recorded in the template project.
 
 ## Rejected Or Downgraded Paths
 
-- <!-- path and reason -->
+- None recorded in the template project.
 
 ## Recovery Notes
 
-- <!-- concrete recovery procedure -->
+- None recorded in the template project.

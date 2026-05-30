@@ -2,11 +2,11 @@
 
 ## Open Plan
 
-- [ ] <!-- unfinished step -->
+- No active project-specific plan in the template. Replace this line with concrete steps when a task starts.
 
 ## Locked Decisions
 
-- <!-- stable decision and rationale -->
+- Keep stable project rules in `Project.md`, `docs/runbook.md`, and `docs/contracts/*`; keep transient task evidence in TaskLogs.
 
 ## Evidence Location
 

@@ -1,0 +1,53 @@
+[
+  {
+    "cmd": [
+      "which",
+      "bash"
+    ],
+    "returncode": 0,
+    "stdout": "C:\\Windows\\system32\\bash.EXE",
+    "stderr": ""
+  },
+  {
+    "cmd": [
+      "git",
+      "diff",
+      "--",
+      "README.md"
+    ],
+    "returncode": 0,
+    "stdout": "diff --git a/README.md b/README.md\nindex 3ea9a6d..3011580 100644\n--- a/README.md\n+++ b/README.md\n@@ -66,8 +66,12 @@ To smoke-test installation without touching real agent homes, use scratch homes\n \n ```bash\n SCRATCH=\"$(mktemp -d)\"\n-CODEX_HOME=\"$SCRATCH/Codex Home With Spaces\" CLAUDE_HOME=\"$SCRATCH/ClaudeHome\" ./install.sh all\n-python \"$CODEX_HOME/skills/project-init/scripts/validate_handoff.py\" \\\n+export CODEX_HOME=\"$SCRATCH/Codex Home With Spaces\"\n+export CLAUDE_HOME=\"$SCRATCH/ClaudeHome\"\n+PYTHON=\"${PYTHON:-python3}\"\n+command -v \"$PYTHON\" >/dev/null 2>&1 || PYTHON=\"python\"\n+./install.sh all\n+\"$PYTHON\" \"$CODEX_HOME/skills/project-init/scripts/validate_handoff.py\" \\\n   --root \"$CODEX_HOME/skills/project-init/templates\" \\\n   --contract \"$CODEX_HOME/skills/project-init/templates/.github/project_handoff_contract.json\" \\\n   --json\n",
+    "stderr": ""
+  },
+  {
+    "cmd": [
+      "C:\\Windows\\system32\\bash.EXE",
+      "-lc",
+      "set -euo pipefail\nSCRATCH=\"$(mktemp -d)\"\nexport CODEX_HOME=\"$SCRATCH/Codex Home With Spaces\"\nexport CLAUDE_HOME=\"$SCRATCH/ClaudeHome\"\nPYTHON=\"${PYTHON:-python3}\"\ncommand -v \"$PYTHON\" >/dev/null 2>&1 || PYTHON=\"python\"\n./install.sh all\n\"$PYTHON\" \"$CODEX_HOME/skills/project-init/scripts/validate_handoff.py\"   --root \"$CODEX_HOME/skills/project-init/templates\"   --contract \"$CODEX_HOME/skills/project-init/templates/.github/project_handoff_contract.json\"   --json\nprintf '\nPYTHON_USED=%s\n' \"$PYTHON\"\nprintf 'CODEX_HOME=%s\n' \"$CODEX_HOME\"\nprintf 'CLAUDE_HOME=%s\n' \"$CLAUDE_HOME\"\n"
+    ],
+    "returncode": 1,
+    "stdout": "Usage: ./install.sh [all|codex|claude]\n\nInstalls project-init to agent skill homes:\n  codex   /Codex Home With Spaces/skills/project-init\n  claude  /ClaudeHome/skills/project-init\n  all     both targets (default)\n\nEnvironment overrides:\n  CODEX_HOME   default: /home/gomay/.codex\n  CLAUDE_HOME  default: /home/gomay/.claude\n\nSafety note: install overwrites SKILL.md, templates/, and scripts/ inside\nonly the target project-init skill directory shown above.\nInstalling project-init to: /Codex Home With Spaces/skills/project-init\nOverwrite scope: /Codex Home With Spaces/skills/project-init/SKILL.md, /Codex Home With Spaces/skills/project-init/templates/, /Codex Home With Spaces/skills/project-init/scripts/\n",
+    "stderr": "wsl: Failed to start the systemd user session for 'gomay'. See journalctl for more details.\nmkdir: cannot create directory ‘/Codex Home With Spaces’: Permission denied\n"
+  },
+  {
+    "cmd": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "cmd": [
+      "git",
+      "diff",
+      "--cached",
+      "--name-only"
+    ],
+    "returncode": 0,
+    "stdout": "README.md\n",
+    "stderr": ""
+  }
+]

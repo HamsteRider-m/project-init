@@ -1,0 +1,10 @@
+$ C:\Program Files\Git\bin\bash.exe E:\Projects\project-init\evidence\dispatch14_windows_install_path_normalization\validate_target_harness.sh validate C:/Users/Alice/.codex/skills/project-init-extra
+# cwd=E:\Projects\project-init
+# expected_rc=3
+# rc=3
+
+## stdout
+
+## stderr
+Refusing unsafe install target: C:/Users/Alice/.codex/skills/project-init-extra
+Expected absolute target path to end with /skills/project-init.

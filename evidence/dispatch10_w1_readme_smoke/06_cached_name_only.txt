@@ -1,0 +1,9 @@
+$ git diff --cached --name-only
+rc=0
+
+[stdout]
+README.md
+
+
+[stderr]
+

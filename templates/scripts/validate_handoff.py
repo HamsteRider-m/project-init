@@ -2,7 +2,8 @@
 """Validate the project document handoff loop.
 
 The validator is intentionally deterministic: it checks files, headings,
-reading order, wrappers, placeholders, task audit fields, and obvious secrets.
+reading order, wrappers, placeholders, prompt contracts, managed file
+categories, workflow transitions, task audit fields, and obvious secrets.
 It does not ask an LLM whether a project is acceptable.
 """
 
@@ -39,6 +40,32 @@ def markdown_headings(text: str) -> set[str]:
         if match:
             headings.add(match.group(2).strip())
     return headings
+
+
+def markdown_section(text: str, heading: str) -> str | None:
+    pattern = re.compile(rf"^(?P<marks>#+)\s+{re.escape(heading)}\s*$", re.MULTILINE)
+    match = pattern.search(text)
+    if not match:
+        return None
+    level = len(match.group("marks"))
+    start = match.end()
+    next_heading = re.compile(rf"^#{{1,{level}}}\s+.+?$", re.MULTILINE)
+    next_match = next_heading.search(text, start)
+    end = next_match.start() if next_match else len(text)
+    return text[start:end]
+
+
+def has_concrete_content(section: str) -> bool:
+    for raw_line in section.splitlines():
+        line = raw_line.strip()
+        if not line or line in {"-", "*"}:
+            continue
+        if line.startswith("<!--") and line.endswith("-->"):
+            continue
+        if "<!--" in line and "-->" in line and re.sub(r"<!--.*?-->", "", line).strip() in {"", "-", "*"}:
+            continue
+        return True
+    return False
 
 
 def load_contract(root: Path, contract_arg: Path | None) -> dict[str, Any]:
@@ -158,6 +185,83 @@ def validate_runbook_terms(root: Path, contract: dict[str, Any]) -> list[Finding
     return findings
 
 
+def validate_prompt_files(root: Path, contract: dict[str, Any]) -> list[Finding]:
+    findings: list[Finding] = []
+    for item in contract.get("prompt_files", []):
+        file_name = str(item.get("path", ""))
+        if not file_name:
+            findings.append(Finding("prompt_contract_invalid", ".github/project_handoff_contract.json", "prompt_files item has no path"))
+            continue
+        path = root / file_name
+        if not path.exists():
+            findings.append(Finding("missing_prompt_file", file_name, "prompt file is absent"))
+            continue
+        text = read_text(path)
+        for reference in item.get("must_reference", []):
+            if str(reference) not in text:
+                findings.append(Finding("prompt_missing_reference", file_name, f"missing required reference: {reference}"))
+        for term in item.get("must_include_terms", []):
+            if str(term) not in text:
+                findings.append(Finding("prompt_missing_term", file_name, f"missing required term: {term}"))
+    return findings
+
+
+def validate_managed_file_categories(root: Path, contract: dict[str, Any]) -> list[Finding]:
+    findings: list[Finding] = []
+    categories = contract.get("managed_file_categories", {})
+    owners: dict[str, str] = {}
+    for category, files in categories.items():
+        for item in files:
+            item = str(item)
+            previous = owners.get(item)
+            if previous and previous != category:
+                findings.append(Finding("managed_file_overlap", ".github/project_handoff_contract.json", f"{item} appears in both {previous} and {category}"))
+            owners[item] = str(category)
+    for item in contract.get("required_files", []):
+        item = str(item)
+        if item.startswith(("docs/", ".github/", "scripts/")) or item in {"AGENTS.md", "Project.md", "README.md", "CLAUDE.md", "CODEX.md"}:
+            if item not in owners:
+                findings.append(Finding("required_file_uncategorized", ".github/project_handoff_contract.json", f"{item} is required but not in managed_file_categories"))
+    return findings
+
+
+def validate_workflow_transitions(root: Path, contract: dict[str, Any]) -> list[Finding]:
+    path = root / ".github" / "AI_WORKFLOW.md"
+    if not path.exists():
+        return []
+    text = read_text(path)
+    findings: list[Finding] = []
+    for transition in contract.get("workflow_transitions", []):
+        source = str(transition.get("from", ""))
+        target = str(transition.get("to", ""))
+        if not source or not target:
+            findings.append(Finding("workflow_transition_invalid", ".github/project_handoff_contract.json", "transition must include from and to"))
+            continue
+        for mode in [source, target]:
+            if f"`{mode}`" not in text and mode not in text:
+                findings.append(Finding("workflow_mode_missing", rel(path, root), f"workflow mode not documented: {mode}"))
+        for required in transition.get("requires", []):
+            if str(required) not in text:
+                findings.append(Finding("workflow_requirement_missing", rel(path, root), f"transition {source}->{target} does not reference {required}"))
+    return findings
+
+
+def validate_required_sections(root: Path, contract: dict[str, Any]) -> list[Finding]:
+    findings: list[Finding] = []
+    for file_name, headings in contract.get("required_non_placeholder_sections", {}).items():
+        path = root / file_name
+        if not path.exists():
+            continue
+        text = read_text(path)
+        for heading in headings:
+            section = markdown_section(text, str(heading))
+            if section is None:
+                findings.append(Finding("missing_required_section", file_name, f"missing section: {heading}"))
+            elif not has_concrete_content(section):
+                findings.append(Finding("empty_required_section", file_name, f"section has no concrete content: {heading}"))
+    return findings
+
+
 def validate_secret_patterns(root: Path, contract: dict[str, Any]) -> list[Finding]:
     findings: list[Finding] = []
     patterns = [re.compile(pattern) for pattern in contract.get("secret_patterns", [])]
@@ -170,7 +274,8 @@ def validate_secret_patterns(root: Path, contract: dict[str, Any]) -> list[Findi
             continue
         text = read_text(path)
         for pattern in patterns:
-            if pattern.search(text):
+            match = pattern.search(text)
+            if match:
                 findings.append(Finding("secret_pattern", rel(path, root), f"matches secret pattern: {pattern.pattern}"))
     return findings
 
@@ -184,6 +289,10 @@ def validate(root: Path, contract: dict[str, Any]) -> list[Finding]:
     findings.extend(validate_placeholders(root, contract))
     findings.extend(validate_doc_audit(root, contract))
     findings.extend(validate_runbook_terms(root, contract))
+    findings.extend(validate_prompt_files(root, contract))
+    findings.extend(validate_managed_file_categories(root, contract))
+    findings.extend(validate_workflow_transitions(root, contract))
+    findings.extend(validate_required_sections(root, contract))
     findings.extend(validate_secret_patterns(root, contract))
     return findings
 

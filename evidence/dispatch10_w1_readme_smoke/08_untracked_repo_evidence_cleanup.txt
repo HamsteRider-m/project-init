@@ -1,0 +1,1 @@
+Backed up untracked E:\Projects\project-init\evidence to C:\Users\hamst\team_generic_agent\GenericAgent\temp\hive_project_init\evidence\dispatch10_w1_readme_smoke\repo_untracked_evidence_backup and removed it from target repo worktree to keep W2 status guard clean.

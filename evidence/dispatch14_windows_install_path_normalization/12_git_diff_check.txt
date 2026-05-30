@@ -1,0 +1,17 @@
+$ git diff --check
+# cwd=E:\Projects\project-init
+# expected_rc=0
+# rc=0
+
+## stdout
+
+## stderr
+warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'templates/.github/AI_WORKFLOW.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'templates/.github/TaskLogs/Execution.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'templates/.github/TaskLogs/Investigate.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'templates/.github/TaskLogs/KB.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'templates/.github/TaskLogs/Planning.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'templates/.github/TaskLogs/Review.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'templates/.github/project_handoff_contract.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'templates/AGENTS.md', LF will be replaced by CRLF the next time Git touches it

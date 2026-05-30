@@ -1,0 +1,42 @@
+[
+  {
+    "cmd": [
+      "C:\\Windows\\system32\\bash.EXE",
+      "-lc",
+      "pwd; command -v mktemp; SCRATCH=\"$(mktemp -d)\"; printf \"SCRATCH=<%s>\\n\" \"$SCRATCH\"; export CODEX_HOME=\"$SCRATCH/Codex Home With Spaces\"; printf \"CODEX_HOME=<%s>\\n\" \"$CODEX_HOME\"; test -n \"$SCRATCH\""
+    ],
+    "returncode": 1,
+    "stdout": "/mnt/e/Projects/project-init\n/usr/bin/mktemp\nSCRATCH=<>\nCODEX_HOME=<>\n",
+    "stderr": ""
+  },
+  {
+    "cmd": [
+      "C:\\Windows\\system32\\bash.exe",
+      "-lc",
+      "pwd; command -v mktemp; SCRATCH=\"$(mktemp -d)\"; printf \"SCRATCH=<%s>\\n\" \"$SCRATCH\"; export CODEX_HOME=\"$SCRATCH/Codex Home With Spaces\"; printf \"CODEX_HOME=<%s>\\n\" \"$CODEX_HOME\"; test -n \"$SCRATCH\""
+    ],
+    "returncode": 1,
+    "stdout": "/mnt/e/Projects/project-init\n/usr/bin/mktemp\nSCRATCH=<>\nCODEX_HOME=<>\n",
+    "stderr": ""
+  },
+  {
+    "cmd": [
+      "C:\\Program Files\\Git\\bin\\bash.exe",
+      "-lc",
+      "pwd; command -v mktemp; SCRATCH=\"$(mktemp -d)\"; printf \"SCRATCH=<%s>\\n\" \"$SCRATCH\"; export CODEX_HOME=\"$SCRATCH/Codex Home With Spaces\"; printf \"CODEX_HOME=<%s>\\n\" \"$CODEX_HOME\"; test -n \"$SCRATCH\""
+    ],
+    "returncode": 0,
+    "stdout": "/e/Projects/project-init\n/usr/bin/mktemp\nSCRATCH=</tmp/tmp.h62h69nKwV>\nCODEX_HOME=</tmp/tmp.h62h69nKwV/Codex Home With Spaces>\n",
+    "stderr": ""
+  },
+  {
+    "cmd": [
+      "C:\\Program Files\\Git\\usr\\bin\\bash.exe",
+      "-lc",
+      "pwd; command -v mktemp; SCRATCH=\"$(mktemp -d)\"; printf \"SCRATCH=<%s>\\n\" \"$SCRATCH\"; export CODEX_HOME=\"$SCRATCH/Codex Home With Spaces\"; printf \"CODEX_HOME=<%s>\\n\" \"$CODEX_HOME\"; test -n \"$SCRATCH\""
+    ],
+    "returncode": 0,
+    "stdout": "/e/Projects/project-init\n/usr/bin/mktemp\nSCRATCH=</tmp/tmp.OnSfxOPVkP>\nCODEX_HOME=</tmp/tmp.OnSfxOPVkP/Codex Home With Spaces>\n",
+    "stderr": ""
+  }
+]

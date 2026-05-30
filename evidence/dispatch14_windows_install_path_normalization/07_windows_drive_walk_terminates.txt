@@ -1,0 +1,15 @@
+$ C:\Program Files\Git\bin\bash.exe E:\Projects\project-init\evidence\dispatch14_windows_install_path_normalization\validate_target_harness.sh walk C:/Users/Alice/.codex/skills/project-init
+# cwd=E:\Projects\project-init
+# expected_rc=0
+# rc=0
+
+## stdout
+C:/Users/Alice/.codex/skills/project-init
+C:/Users/Alice/.codex/skills
+C:/Users/Alice/.codex
+C:/Users/Alice
+C:/Users
+C:
+C:
+
+## stderr

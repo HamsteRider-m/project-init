@@ -1,0 +1,123 @@
+{
+  "timestamp_utc": "2026-05-30T09:48:15Z",
+  "repo": "E:\\Projects\\project-init",
+  "results": {
+    "git_root": {
+      "rc": 0
+    },
+    "git_status_short": {
+      "rc": 0
+    },
+    "git_status_porcelain": {
+      "rc": 0
+    },
+    "git_diff_check": {
+      "rc": 0
+    },
+    "git_diff_cached_check": {
+      "rc": 0
+    },
+    "git_diff_cached_name_only": {
+      "rc": 0
+    },
+    "git_diff_unstaged_name_only": {
+      "rc": 0
+    },
+    "git_ls_files_evidence_reports": {
+      "rc": 0
+    },
+    "git_ls_files_all": {
+      "rc": 0
+    },
+    "git_untracked_evidence_reports": {
+      "rc": 0
+    },
+    "repo_validator_templates_json": {
+      "rc": 0
+    },
+    "template_validator_templates_json": {
+      "rc": 0
+    }
+  },
+  "file_info": {
+    "scripts/validate_handoff.py": {
+      "exists": true,
+      "size": 8602,
+      "sha256": "b7ca3f58440d33d8738d17017d450f2065e69eb050ec5f035bdab0e26109270d"
+    },
+    "templates/scripts/validate_handoff.py": {
+      "exists": true,
+      "size": 8602,
+      "sha256": "b7ca3f58440d33d8738d17017d450f2065e69eb050ec5f035bdab0e26109270d"
+    },
+    "templates/.github/project_handoff_contract.json": {
+      "exists": true,
+      "size": 2837,
+      "sha256": "269df286c6142b4c185fd6985b560344f6d66c26a91ec4b991135dd01adf5d62"
+    },
+    "install.sh": {
+      "exists": true,
+      "size": 2073,
+      "sha256": "bae345bf5bc8c8d64d19f9756e95add6db3c46b30b3aec669de941387ced32dc"
+    },
+    "README.md": {
+      "exists": true,
+      "size": 4423,
+      "sha256": "c1a0ae8c9c697ccf4e07d07f4f6485dba953c8fe2cb1178ed93408163073757c"
+    },
+    "SKILL.md": {
+      "exists": true,
+      "size": 10200,
+      "sha256": "74dd40552db3686fc8004357427e7ae297d2e3feaa42ebe83483f216a626e437"
+    },
+    ".gitattributes": {
+      "exists": true,
+      "size": 50,
+      "sha256": "95fcaa2c2e5886e077228ff91c52e891e4777161e9d06a72211a8032466670cb"
+    }
+  },
+  "validator_copies_identical_sha256": true,
+  "packaging_metadata_exists": {
+    "package.json": false,
+    "pyproject.toml": false,
+    "setup.py": false,
+    "setup.cfg": false,
+    "MANIFEST.in": false,
+    ".npmignore": false,
+    ".gitignore": false,
+    ".dockerignore": false
+  },
+  "artifact_counts_after_creating_w2_evidence_dir": {
+    "evidence": {
+      "dirs": 2,
+      "files": 37,
+      "bytes": 53411
+    },
+    "reports": {
+      "dirs": 0,
+      "files": 1,
+      "bytes": 1860
+    }
+  },
+  "install_relevant_lines": [
+    "5: CODEX_HOME=\"${CODEX_HOME:-${HOME}/.codex}\"",
+    "6: CLAUDE_HOME=\"${CLAUDE_HOME:-${HOME}/.claude}\"",
+    "13:   codex   $CODEX_HOME/skills/project-init",
+    "14:   claude  $CLAUDE_HOME/skills/project-init",
+    "18:   CODEX_HOME   default: $HOME/.codex",
+    "19:   CLAUDE_HOME  default: $HOME/.claude",
+    "21: Safety note: install overwrites SKILL.md, templates/, and scripts/ inside",
+    "31:       echo \"Refusing unsafe install target: $target\" >&2",
+    "40:       echo \"Refusing unsafe install target containing symlink: $path\" >&2",
+    "47: install_skill() {",
+    "51:   echo \"Overwrite scope: $target/SKILL.md, $target/templates/, $target/scripts/\"",
+    "54:   cp \"$SCRIPT_DIR/SKILL.md\" \"$target/SKILL.md\"",
+    "55:   rm -rf \"$target/templates\"",
+    "56:   cp -R \"$SCRIPT_DIR/templates\" \"$target/templates\"",
+    "58:   cp -R \"$SCRIPT_DIR/scripts\" \"$target/scripts\"",
+    "65:     install_skill \"$CODEX_HOME/skills/project-init\"",
+    "66:     install_skill \"$CLAUDE_HOME/skills/project-init\"",
+    "70:     install_skill \"$CODEX_HOME/skills/project-init\"",
+    "74:     install_skill \"$CLAUDE_HOME/skills/project-init\""
+  ]
+}

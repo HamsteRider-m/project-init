@@ -4,4 +4,4 @@ This file is optional long-term knowledge. It is not part of the core reading pa
 
 ## Entries
 
-- <!-- durable decision, procedure, or lesson -->
+- None recorded in the template project.

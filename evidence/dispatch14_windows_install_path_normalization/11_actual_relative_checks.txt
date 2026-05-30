@@ -1,0 +1,2 @@
+unsafe_parent=C:\Users\hamst\AppData\Local\Temp\d14_project_init_unsafe_ja6kd3jk
+relative_home_created=False

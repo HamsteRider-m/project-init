@@ -2,21 +2,22 @@
 
 ## Run Log
 
-- <!-- YYYY-MM-DD: command or action, with result -->
+- No commands have been run in the template project yet. Record dated commands and results here during real work.
 
 ## Evidence
 
-- <!-- file path, command output summary, generated artifact, or count -->
+- No generated artifacts are recorded in the template project yet. Replace this line with file paths, command summaries, counts, or review evidence.
 
 ## Documentation Audit
 
-- `Project.md`: <!-- updated/unchanged and why -->
-- `README.md`: <!-- updated/unchanged and why -->
-- `docs/runbook.md`: <!-- updated/unchanged and why -->
-- `docs/contracts/*`: <!-- updated/unchanged and why -->
-- `TaskLogs`: <!-- updated/unchanged and evidence location -->
-- `scripts/validate_handoff.py`: <!-- pass/fail and command evidence -->
+- `Project.md`: Template seed present; update with project-specific facts during initialization.
+- `README.md`: Template seed present; update quickstart and documentation map during initialization.
+- `docs/runbook.md`: Template seed present; update routine commands and failure handling during initialization.
+- `docs/contracts/*`: Template seed present; update output and review gates during initialization.
+- `TaskLogs`: Template seed present; update active task state during real work.
+- `.github/project_handoff_contract.json`: Template seed present; update deterministic requirements when the harness changes.
+- `scripts/validate_handoff.py`: Template seed present; run validation before handoff.
 
 ## Blockers
 
-- <!-- current blocker, or "None recorded." -->
+- None recorded in the template project.

@@ -1,0 +1,122 @@
+[
+  {
+    "name": "00_git_bash_version",
+    "rc": 0,
+    "expected": 0,
+    "ok": true,
+    "stdout_preview": "GNU bash, version 5.2.37(1)-release (x86_64-pc-msys)\nCopyright (C) 2022 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\nThis is free software; you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by la",
+    "stderr_preview": ""
+  },
+  {
+    "name": "01_bash_syntax_install_sh",
+    "rc": 0,
+    "expected": 0,
+    "ok": true,
+    "stdout_preview": "",
+    "stderr_preview": ""
+  },
+  {
+    "name": "02_line_endings",
+    "rc": 0,
+    "expected": 0,
+    "ok": true,
+    "stdout_preview": "crlf_count=0\n",
+    "stderr_preview": ""
+  },
+  {
+    "name": "03_guard_windows_drive_accepts",
+    "rc": 0,
+    "expected": 0,
+    "ok": true,
+    "stdout_preview": "",
+    "stderr_preview": ""
+  },
+  {
+    "name": "04_guard_posix_accepts",
+    "rc": 0,
+    "expected": 0,
+    "ok": true,
+    "stdout_preview": "",
+    "stderr_preview": ""
+  },
+  {
+    "name": "05_guard_relative_rejects",
+    "rc": 3,
+    "expected": 3,
+    "ok": true,
+    "stdout_preview": "",
+    "stderr_preview": "Refusing unsafe install target: relative/skills/project-init\nExpected absolute target path to end with /skills/project-init.\n"
+  },
+  {
+    "name": "06_guard_wrong_suffix_rejects",
+    "rc": 3,
+    "expected": 3,
+    "ok": true,
+    "stdout_preview": "",
+    "stderr_preview": "Refusing unsafe install target: C:/Users/Alice/.codex/skills/project-init-extra\nExpected absolute target path to end with /skills/project-init.\n"
+  },
+  {
+    "name": "07_windows_drive_walk_terminates",
+    "rc": 0,
+    "expected": 0,
+    "ok": true,
+    "stdout_preview": "C:/Users/Alice/.codex/skills/project-init\nC:/Users/Alice/.codex/skills\nC:/Users/Alice/.codex\nC:/Users/Alice\nC:/Users\nC:\nC:\n",
+    "stderr_preview": ""
+  },
+  {
+    "name": "08_actual_codex_drive_install_workspace",
+    "rc": 0,
+    "expected": 0,
+    "ok": true,
+    "stdout_preview": "Usage: E:\\Projects\\project-init\\install.sh [all|codex|claude]\n\nInstalls project-init to agent skill homes:\n  codex   C:/Users/hamst/AppData/Local/Temp/d14_project_init_smoke_3ex53pwx/codex_home/skills/project-init\n  claude  /c/Users/hamst/.claude/skills/project-init\n  all     both targets (default)\n",
+    "stderr_preview": ""
+  },
+  {
+    "name": "09_actual_install_checks",
+    "rc": 0,
+    "expected": 0,
+    "ok": true,
+    "stdout_preview": "{\n  \"smoke_parent\": \"C:\\\\Users\\\\hamst\\\\AppData\\\\Local\\\\Temp\\\\d14_project_init_smoke_3ex53pwx\",\n  \"CODEX_HOME\": \"C:/Users/hamst/AppData/Local/Temp/d14_project_init_smoke_3ex53pwx/codex_home\",\n  \"installed_dir_exists\": true,\n  \"installed_SKILL_exists\": true,\n  \"installed_templates_exists\": true,\n  \"in",
+    "stderr_preview": ""
+  },
+  {
+    "name": "10_actual_relative_codex_rejects",
+    "rc": 3,
+    "expected": 3,
+    "ok": true,
+    "stdout_preview": "Usage: E:\\Projects\\project-init\\install.sh [all|codex|claude]\n\nInstalls project-init to agent skill homes:\n  codex   relative-home/skills/project-init\n  claude  /c/Users/hamst/.claude/skills/project-init\n  all     both targets (default)\n\nEnvironment overrides:\n  CODEX_HOME   default: /c/Users/hamst/",
+    "stderr_preview": "Refusing unsafe install target: relative-home/skills/project-init\nExpected absolute target path to end with /skills/project-init.\n"
+  },
+  {
+    "name": "11_actual_relative_checks",
+    "rc": 0,
+    "expected": 0,
+    "ok": true,
+    "stdout_preview": "relative_home_created=False",
+    "stderr_preview": ""
+  },
+  {
+    "name": "12_git_diff_check",
+    "rc": 0,
+    "expected": 0,
+    "ok": true,
+    "stdout_preview": "",
+    "stderr_preview": "warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'templates/.github/AI_WORKFLOW.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'templates/.github/TaskLogs/Execution.md'"
+  },
+  {
+    "name": "13_git_status_short",
+    "rc": 0,
+    "expected": 0,
+    "ok": true,
+    "stdout_preview": "AM README.md\n M SKILL.md\n M install.sh\n M scripts/validate_handoff.py\n M templates/.github/AI_WORKFLOW.md\n M templates/.github/TaskLogs/Execution.md\n M templates/.github/TaskLogs/Investigate.md\n M templates/.github/TaskLogs/KB.md\n M templates/.github/TaskLogs/Planning.md\n M templates/.github/TaskLog",
+    "stderr_preview": ""
+  },
+  {
+    "name": "14_git_diff_install",
+    "rc": 0,
+    "expected": 0,
+    "ok": true,
+    "stdout_preview": "diff --git a/install.sh b/install.sh\nindex 56b2b18..f46ee83 100755\n--- a/install.sh\n+++ b/install.sh\n@@ -5,9 +5,60 @@ SCRIPT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" && pwd)\"\n CODEX_HOME=\"${CODEX_HOME:-${HOME}/.codex}\"\n CLAUDE_HOME=\"${CLAUDE_HOME:-${HOME}/.claude}\"\n \n+usage() {\n+  cat <<EOF\n+Usage",
+    "stderr_preview": ""
+  }
+]

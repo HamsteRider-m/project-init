@@ -1,11 +1,21 @@
 ---
 name: project-init
-description: "Initialize or refresh a project with a document-backed AI handoff loop: AGENTS.md, Project.md, README.md, docs/runbook.md, docs/contracts/*, and .github/TaskLogs/*. Use when the user asks to 初始化项目, 搭建项目骨架, init project, project init, create project docs, update project-init docs, or make a repo easier for no-context agents to resume."
+description: "Initialize or refresh a project with a document-backed AI handoff loop: AGENTS.md, Project.md, README.md, docs/runbook.md, docs/contracts/*, and .github/TaskLogs/*. Use when the user asks to waza think project-init, 初始化项目, 搭建项目骨架, init project, project init, create project docs, update project-init docs, or make a repo easier for no-context agents to resume."
 ---
 
 # project-init
 
 Create a tool-neutral project documentation harness that lets a no-context agent resume work from repository documents instead of chat history.
+
+`waza think project-init` is package-level invocation language for this skill. Treat it as the phrase a user or agent can say to request the project-init workflow, not as a shell command, binary, or runtime dependency.
+
+Example prompts:
+
+```text
+waza think project-init for this repo
+Use project-init to add an agent handoff loop
+Refresh this repo's project-init docs and validation contract
+```
 
 ## Default Handoff Loop
 
@@ -92,6 +102,19 @@ Only add optional files when the user asks for that tool surface or the project 
    - a secret scan appropriate for the project, at minimum common token prefixes/patterns mentioned in docs.
 9. Report created/updated/skipped files, verification commands, documentation-audit outcome, and any remaining manual fill-ins.
 
+## Complete Loop Recipe
+
+When a user invokes `waza think project-init`, complete the loop end to end:
+
+1. Identify the target project root and inspect existing handoff docs before copying templates.
+2. Copy only the needed scaffold files from `templates/`; merge with existing content instead of replacing project-specific facts.
+3. Replace placeholders with real project purpose, boundaries, commands, contracts, and current task state.
+4. Keep `AGENTS.md` as the stable entry point; add optional wrappers only when the project asks for those tool surfaces.
+5. Run generated-project validation from the target root:
+   - `python scripts/validate_handoff.py --root . --contract .github/project_handoff_contract.json`
+6. Run `git diff --check` and a basic secret-pattern scan before handoff.
+7. Report changed files, exact verification commands and exit codes, audit outcome, and any manual fill-ins that remain.
+
 ## Migration Rules For Existing Repos
 
 - Do not delete historical handoff or investigation docs. Add a clear header that marks them historical/debug-only and points to the current Project/runbook/contracts.
@@ -164,4 +187,17 @@ Use the repository install script when updating local agent runtimes:
 ./install.sh claude
 ```
 
-The script copies `SKILL.md`, `templates/`, and `scripts/`. When calling it through WSL from Windows, pass `CODEX_HOME` or `CLAUDE_HOME` in the same `bash` invocation if you want a Windows-mounted target.
+The script installs into each selected agent home under `skills/project-init/`. Inside that skill directory it replaces `SKILL.md`, `templates/`, and `scripts/`; it does not modify generated project repositories. When calling it through WSL from Windows, pass `CODEX_HOME` or `CLAUDE_HOME` in the same `bash` invocation if you want a Windows-mounted target.
+
+After install, reload the target agent runtime. To validate the installed copy without touching real homes, run from the repository root in Git Bash or another POSIX shell with `python` on `PATH`; export scratch `CODEX_HOME`/`CLAUDE_HOME` values before install so they persist for the following validator command:
+
+```bash
+SCRATCH="$(mktemp -d)"
+export CODEX_HOME="$SCRATCH/Codex Home With Spaces"
+export CLAUDE_HOME="$SCRATCH/ClaudeHome"
+./install.sh all
+python "$CODEX_HOME/skills/project-init/scripts/validate_handoff.py" \
+  --root "$CODEX_HOME/skills/project-init/templates" \
+  --contract "$CODEX_HOME/skills/project-init/templates/.github/project_handoff_contract.json" \
+  --json
+```

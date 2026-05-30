@@ -1,0 +1,24 @@
+$ git status --short
+# cwd=E:\Projects\project-init
+# expected_rc=0
+# rc=0
+
+## stdout
+AM README.md
+ M SKILL.md
+ M install.sh
+ M scripts/validate_handoff.py
+ M templates/.github/AI_WORKFLOW.md
+ M templates/.github/TaskLogs/Execution.md
+ M templates/.github/TaskLogs/Investigate.md
+ M templates/.github/TaskLogs/KB.md
+ M templates/.github/TaskLogs/Planning.md
+ M templates/.github/TaskLogs/Review.md
+ M templates/.github/project_handoff_contract.json
+ M templates/AGENTS.md
+ M templates/scripts/validate_handoff.py
+?? evidence/
+?? reports/
+?? templates/.github/prompts/
+
+## stderr

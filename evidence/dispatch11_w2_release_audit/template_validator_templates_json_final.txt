@@ -1,0 +1,5 @@
+$ python templates/scripts/validate_handoff.py --root templates --json
+rc=0
+
+[stdout]
+[]

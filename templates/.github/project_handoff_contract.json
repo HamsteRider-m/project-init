@@ -15,7 +15,10 @@
     ".github/TaskLogs/Execution.md",
     ".github/TaskLogs/Review.md",
     ".github/TaskLogs/Investigate.md",
-    ".github/TaskLogs/KB.md"
+    ".github/TaskLogs/KB.md",
+    ".github/prompts/project-init-system.md",
+    ".github/prompts/project-init-plan.md",
+    ".github/prompts/project-init-verify.md"
   ],
   "reading_order": [
     "Project.md",
@@ -23,6 +26,9 @@
     "docs/runbook.md",
     "docs/contracts/",
     ".github/AI_WORKFLOW.md",
+    ".github/prompts/project-init-system.md",
+    ".github/prompts/project-init-plan.md",
+    ".github/prompts/project-init-verify.md",
     ".github/TaskLogs/CurrentTask.md",
     ".github/TaskLogs/Planning.md"
   ],
@@ -70,6 +76,8 @@
     ".github/AI_WORKFLOW.md": [
       "Modes",
       "Gates",
+      "Prompt Chain",
+      "Edit Boundaries",
       "Durable State Files",
       "Maintenance Rules"
     ],
@@ -78,6 +86,26 @@
       "Evidence",
       "Documentation Audit",
       "Blockers"
+    ],
+    ".github/prompts/project-init-system.md": [
+      "Purpose",
+      "Required Reading Order",
+      "Source Of Truth Hierarchy",
+      "Edit Boundaries",
+      "Operating Loop",
+      "Non-Negotiable Rules"
+    ],
+    ".github/prompts/project-init-plan.md": [
+      "Planning Gate",
+      "Scope Discipline",
+      "Contract Alignment",
+      "Execution Handoff"
+    ],
+    ".github/prompts/project-init-verify.md": [
+      "Verification Gate",
+      "Evidence Checklist",
+      "Failure Handling",
+      "Completion Statement"
     ]
   },
   "wrapper_files": [
@@ -90,14 +118,27 @@
     "<!-- file 1 -->",
     "<!-- file 2 -->",
     "<!-- gate 1 -->",
-    "<!-- gate 2 -->"
+    "<!-- gate 2 -->",
+    "<!-- unfinished step -->",
+    "<!-- stable decision and rationale -->",
+    "<!-- updated/unchanged and why -->",
+    "<!-- current blocker, or \"None recorded.\" -->",
+    "<!-- severity, file/path, evidence, impact -->",
+    "<!-- risk -->",
+    "<!-- gap -->",
+    "<!-- date, symptom, evidence, conclusion -->",
+    "<!-- path and reason -->",
+    "<!-- concrete recovery procedure -->",
+    "<!-- durable decision, procedure, or lesson -->"
   ],
   "doc_audit_required_fields": [
     "Project.md",
     "README.md",
     "docs/runbook.md",
     "docs/contracts/*",
-    "TaskLogs"
+    "TaskLogs",
+    ".github/project_handoff_contract.json",
+    "scripts/validate_handoff.py"
   ],
   "runbook_required_terms": [
     "validate",
@@ -107,6 +148,154 @@
   "secret_patterns": [
     "hf_[A-Za-z0-9_\\-]{20,}",
     "sk-[A-Za-z0-9_\\-]{20,}",
-    "ghp_[A-Za-z0-9_]{20,}"
-  ]
+    "ghp_[A-Za-z0-9_]{20,}",
+    "AKIA[0-9A-Z]{16}",
+    "-----BEGIN\\s+(?:[A-Z0-9]+\\s+)?PRIVATE\\s+KEY-----"
+  ],
+  "prompt_files": [
+    {
+      "path": ".github/prompts/project-init-system.md",
+      "must_reference": [
+        "AGENTS.md",
+        "Project.md",
+        "README.md",
+        "docs/runbook.md",
+        "docs/contracts/",
+        ".github/AI_WORKFLOW.md",
+        ".github/project_handoff_contract.json",
+        "scripts/validate_handoff.py"
+      ],
+      "must_include_terms": [
+        "MUST",
+        "MUST NOT",
+        "Required Reading Order",
+        "Source Of Truth Hierarchy",
+        "Edit Boundaries",
+        "Operating Loop"
+      ]
+    },
+    {
+      "path": ".github/prompts/project-init-plan.md",
+      "must_reference": [
+        ".github/TaskLogs/Planning.md",
+        ".github/TaskLogs/CurrentTask.md",
+        ".github/project_handoff_contract.json",
+        "scripts/validate_handoff.py"
+      ],
+      "must_include_terms": [
+        "MUST",
+        "MUST NOT",
+        "Planning Gate",
+        "Scope Discipline",
+        "Contract Alignment"
+      ]
+    },
+    {
+      "path": ".github/prompts/project-init-verify.md",
+      "must_reference": [
+        "AGENTS.md",
+        ".github/AI_WORKFLOW.md",
+        ".github/project_handoff_contract.json",
+        "scripts/validate_handoff.py",
+        ".github/TaskLogs/Execution.md"
+      ],
+      "must_include_terms": [
+        "MUST",
+        "MUST NOT",
+        "Verification Gate",
+        "Evidence Checklist",
+        "Completion Statement"
+      ]
+    }
+  ],
+  "managed_file_categories": {
+    "stable_source": [
+      "Project.md",
+      "README.md",
+      "docs/runbook.md",
+      "docs/folder_structure.md",
+      "docs/contracts/output_contract.md",
+      "docs/contracts/qc_and_review_contract.md"
+    ],
+    "agent_process": [
+      "AGENTS.md",
+      ".github/AI_WORKFLOW.md",
+      ".github/prompts/project-init-system.md",
+      ".github/prompts/project-init-plan.md",
+      ".github/prompts/project-init-verify.md",
+      ".github/project_handoff_contract.json",
+      "scripts/validate_handoff.py"
+    ],
+    "active_task_state": [
+      ".github/TaskLogs/CurrentTask.md",
+      ".github/TaskLogs/Planning.md",
+      ".github/TaskLogs/Execution.md",
+      ".github/TaskLogs/Review.md",
+      ".github/TaskLogs/Investigate.md",
+      ".github/TaskLogs/KB.md"
+    ],
+    "wrappers": [
+      "CLAUDE.md",
+      "CODEX.md",
+      ".github/copilot-instructions.md"
+    ]
+  },
+  "workflow_transitions": [
+    {
+      "from": "plan",
+      "to": "execute",
+      "requires": [
+        ".github/prompts/project-init-plan.md",
+        ".github/TaskLogs/Planning.md"
+      ]
+    },
+    {
+      "from": "execute",
+      "to": "verify",
+      "requires": [
+        ".github/TaskLogs/Execution.md"
+      ]
+    },
+    {
+      "from": "verify",
+      "to": "review",
+      "requires": [
+        ".github/prompts/project-init-verify.md",
+        ".github/TaskLogs/Review.md"
+      ]
+    },
+    {
+      "from": "execute",
+      "to": "investigate",
+      "requires": [
+        ".github/TaskLogs/Investigate.md"
+      ]
+    }
+  ],
+  "required_non_placeholder_sections": {
+    ".github/TaskLogs/Planning.md": [
+      "Open Plan",
+      "Locked Decisions",
+      "Evidence Location"
+    ],
+    ".github/TaskLogs/Execution.md": [
+      "Run Log",
+      "Evidence",
+      "Documentation Audit",
+      "Blockers"
+    ],
+    ".github/TaskLogs/Review.md": [
+      "Findings",
+      "Residual Risks",
+      "Test Gaps"
+    ],
+    ".github/TaskLogs/Investigate.md": [
+      "Findings",
+      "Rejected Or Downgraded Paths",
+      "Recovery Notes"
+    ],
+    ".github/TaskLogs/KB.md": [
+      "Entries"
+    ]
+  }
 }

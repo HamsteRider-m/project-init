@@ -1,0 +1,121 @@
+{
+  "timestamp_utc": "2026-05-30T09:15:10+00:00",
+  "repo": "E:\\Projects\\project-init",
+  "scope": "Dispatch 10 W1 README smoke copy/paste fix",
+  "commands": [
+    {
+      "label": "git diff README.md",
+      "argv": [
+        "git",
+        "diff",
+        "--",
+        "README.md"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "label": "git diff --check",
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "label": "git diff --cached --check",
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "label": "package template validation",
+      "argv": [
+        "C:\\Program Files\\Git\\bin\\bash.exe",
+        "-lc",
+        "cd /e/Projects/project-init && python scripts/validate_handoff.py --root templates --contract templates/.github/project_handoff_contract.json --json"
+      ],
+      "returncode": 0,
+      "stdout": "[]\r\n",
+      "stderr": ""
+    },
+    {
+      "label": "README scratch install smoke",
+      "argv": [
+        "C:\\Program Files\\Git\\bin\\bash.exe",
+        "-lc",
+        "\nset -euo pipefail\ncd /e/Projects/project-init\nSCRATCH=\"$(mktemp -d)\"\ntrap 'rm -rf \"$SCRATCH\"' EXIT\nexport CODEX_HOME=\"$SCRATCH/Codex Home With Spaces\"\nexport CLAUDE_HOME=\"$SCRATCH/ClaudeHome\"\nPYTHON=\"${PYTHON:-}\"\nif [ -z \"$PYTHON\" ]; then\n  for CANDIDATE in python3 python py; do\n    if command -v \"$CANDIDATE\" >/dev/null 2>&1 && \"$CANDIDATE\" --version >/dev/null 2>&1; then\n      PYTHON=\"$CANDIDATE\"\n      break\n    fi\n  done\nfi\n[ -n \"$PYTHON\" ] || { echo \"Python 3 is required\" >&2; exit 1; }\n./install.sh all\n\"$PYTHON\" \"$CODEX_HOME/skills/project-init/scripts/validate_handoff.py\" \\\n  --root \"$CODEX_HOME/skills/project-init/templates\" \\\n  --contract \"$CODEX_HOME/skills/project-init/templates/.github/project_handoff_contract.json\" \\\n  --json\nprintf 'CODEX_HOME_EXISTS=%s\\n' \"$([ -d \"$CODEX_HOME/skills/project-init\" ] && echo yes || echo no)\"\nprintf 'CLAUDE_HOME_EXISTS=%s\\n' \"$([ -d \"$CLAUDE_HOME/skills/project-init\" ] && echo yes || echo no)\"\nprintf 'PYTHON_USED=%s\\n' \"$PYTHON\"\n"
+      ],
+      "returncode": 0,
+      "stdout": "Usage: ./install.sh [all|codex|claude]\n\nInstalls project-init to agent skill homes:\n  codex   /tmp/tmp.v5rRoFCexZ/Codex Home With Spaces/skills/project-init\n  claude  /tmp/tmp.v5rRoFCexZ/ClaudeHome/skills/project-init\n  all     both targets (default)\n\nEnvironment overrides:\n  CODEX_HOME   default: /c/Users/hamst/.codex\n  CLAUDE_HOME  default: /c/Users/hamst/.claude\n\nSafety note: install overwrites SKILL.md, templates/, and scripts/ inside\nonly the target project-init skill directory shown above.\nInstalling project-init to: /tmp/tmp.v5rRoFCexZ/Codex Home With Spaces/skills/project-init\nOverwrite scope: /tmp/tmp.v5rRoFCexZ/Codex Home With Spaces/skills/project-init/SKILL.md, /tmp/tmp.v5rRoFCexZ/Codex Home With Spaces/skills/project-init/templates/, /tmp/tmp.v5rRoFCexZ/Codex Home With Spaces/skills/project-init/scripts/\nInstalled project-init to /tmp/tmp.v5rRoFCexZ/Codex Home With Spaces/skills/project-init\nInstalling project-init to: /tmp/tmp.v5rRoFCexZ/ClaudeHome/skills/project-init\nOverwrite scope: /tmp/tmp.v5rRoFCexZ/ClaudeHome/skills/project-init/SKILL.md, /tmp/tmp.v5rRoFCexZ/ClaudeHome/skills/project-init/templates/, /tmp/tmp.v5rRoFCexZ/ClaudeHome/skills/project-init/scripts/\nInstalled project-init to /tmp/tmp.v5rRoFCexZ/ClaudeHome/skills/project-init\nReload the target agent runtime to activate project-init.\n[]\r\nCODEX_HOME_EXISTS=yes\nCLAUDE_HOME_EXISTS=yes\nPYTHON_USED=python\n",
+      "stderr": ""
+    },
+    {
+      "label": "stage README only",
+      "argv": [
+        "git",
+        "add",
+        "README.md"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "label": "git status --short",
+      "argv": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "returncode": 0,
+      "stdout": "A  README.md\n M SKILL.md\n M install.sh\n M scripts/validate_handoff.py\n M templates/.github/project_handoff_contract.json\n M templates/scripts/validate_handoff.py\n?? evidence/\n",
+      "stderr": ""
+    },
+    {
+      "label": "git diff --cached --name-only",
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--name-only"
+      ],
+      "returncode": 0,
+      "stdout": "README.md\n",
+      "stderr": ""
+    },
+    {
+      "label": "git diff --cached --check",
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "label": "git diff --name-only",
+      "argv": [
+        "git",
+        "diff",
+        "--name-only"
+      ],
+      "returncode": 0,
+      "stdout": "SKILL.md\ninstall.sh\nscripts/validate_handoff.py\ntemplates/.github/project_handoff_contract.json\ntemplates/scripts/validate_handoff.py\n",
+      "stderr": ""
+    }
+  ]
+}

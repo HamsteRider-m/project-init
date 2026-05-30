@@ -1,0 +1,15 @@
+$ git status --short
+rc=0
+
+[stdout]
+A  README.md
+ M SKILL.md
+ M install.sh
+ M scripts/validate_handoff.py
+ M templates/.github/project_handoff_contract.json
+ M templates/scripts/validate_handoff.py
+?? evidence/
+
+
+[stderr]
+

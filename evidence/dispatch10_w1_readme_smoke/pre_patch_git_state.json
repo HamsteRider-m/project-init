@@ -1,0 +1,44 @@
+[
+  {
+    "cmd": [
+      "git",
+      "status",
+      "--short"
+    ],
+    "returncode": 0,
+    "stdout": "A  README.md\n M SKILL.md\n M install.sh\n M scripts/validate_handoff.py\n M templates/scripts/validate_handoff.py\n",
+    "stderr": ""
+  },
+  {
+    "cmd": [
+      "git",
+      "diff",
+      "--cached",
+      "--name-only"
+    ],
+    "returncode": 0,
+    "stdout": "README.md\n",
+    "stderr": ""
+  },
+  {
+    "cmd": [
+      "git",
+      "diff",
+      "--name-only"
+    ],
+    "returncode": 0,
+    "stdout": "SKILL.md\ninstall.sh\nscripts/validate_handoff.py\ntemplates/scripts/validate_handoff.py\n",
+    "stderr": ""
+  },
+  {
+    "cmd": [
+      "git",
+      "ls-files",
+      "--stage",
+      "README.md"
+    ],
+    "returncode": 0,
+    "stdout": "100644 3ea9a6daa5f4ca268ecd0c981ae6f40d0d1fbb5b 0\tREADME.md\n",
+    "stderr": ""
+  }
+]

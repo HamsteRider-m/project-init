@@ -1,0 +1,9 @@
+$ git diff --name-only
+rc=0
+
+[stdout]
+SKILL.md
+install.sh
+scripts/validate_handoff.py
+templates/.github/project_handoff_contract.json
+templates/scripts/validate_handoff.py

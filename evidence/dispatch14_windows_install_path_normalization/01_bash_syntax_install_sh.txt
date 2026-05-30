@@ -1,0 +1,8 @@
+$ C:\Program Files\Git\bin\bash.exe -n E:\Projects\project-init\install.sh
+# cwd=E:\Projects\project-init
+# expected_rc=0
+# rc=0
+
+## stdout
+
+## stderr
